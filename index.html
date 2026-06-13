@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>প্রতীতি লাইব্রেরী | Prity Library - জ্ঞানের আলোয় আলোকিত পথ</title>
+    <meta name="description" content="প্রতীতি লাইব্রেরী - জ্ঞান অন্বেষীদের মিলনস্থল। বই, ইভেন্ট, ডিজিটাল লাইব্রেরি ও সদস্য সুবিধা।">
+    <meta name="keywords" content="লাইব্রেরী, বই, ঢাকা, প্রতীতি, পড়া, knowledge">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Swiper Slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.2s ease, border-color 0.2s, transform 0.2s;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --accent: #0f3b2c;
+            --accent-light: #1e5a3c;
+            --accent-glow: #2d6a4f;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-hover: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+            --header-bg: rgba(255,255,255,0.92);
+        }
+
+        body.dark {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --header-bg: rgba(15,23,42,0.95);
+        }
+
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* Loading Animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: var(--accent); 
+            color: white; 
+            padding: 10px 22px; 
+            border-radius: 40px; 
+            font-weight: 600; 
+            border: none; 
+            cursor: pointer; 
+            text-decoration: none; 
+            transition: 0.2s; 
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); background: var(--accent-light); }
+        .btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: white; }
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            padding: 1.5rem; 
+            box-shadow: var(--shadow); 
+            border: 1px solid var(--border); 
+            transition: all 0.3s; 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+        /* Notification Bar */
+        .notification-bar { background: var(--accent); color: white; padding: 10px 0; text-align: center; font-size: 0.9rem; position: relative; }
+        .notification-bar .close-notif { position: absolute; right: 20px; top: 8px; background: none; border: none; color: white; cursor: pointer; font-size: 18px; }
+
+        /* Navbar */
+        .navbar { position: sticky; top: 0; backdrop-filter: blur(12px); background: var(--header-bg); z-index: 1000; border-bottom: 1px solid var(--border); padding: 12px 0; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-img { width: 48px; height: 48px; object-fit: cover; border-radius: 50%; background: var(--accent); padding: 6px; }
+        .site-title { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: var(--text-primary); padding: 8px 12px; border-radius: 32px; transition: 0.2s; }
+        .nav-links a:hover, .nav-links .active { background: var(--accent); color: white; }
+        .lang-theme { display: flex; gap: 12px; align-items: center; }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 99;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); max-width: 500px; width: 90%; border-radius: 28px; padding: 28px; max-height: 85vh; overflow-y: auto; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 24px; margin: 40px 0; text-align: center; }
+        .stat-number { font-size: 2.8rem; font-weight: 800; color: var(--accent); }
+
+        .grid-3, .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; margin-top: 24px; }
+        .book-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 16px; cursor: pointer; }
+        
+        .testimonial-slider .swiper-slide { padding: 20px; text-align: center; }
+        .countdown-box { background: linear-gradient(135deg, var(--accent), #1a4d3a); padding: 15px; border-radius: 20px; text-align: center; color: white; margin: 20px 0; }
+        .countdown-timer { display: flex; gap: 15px; justify-content: center; font-size: 1.8rem; font-weight: bold; }
+
+        .hero-slide { 
+            height: 500px; 
+            background-size: cover; 
+            background-position: center; 
+            position: relative; 
+            border-radius: 32px;
+            overflow: hidden;
+        }
+        .hero-overlay { 
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%); 
+            position: absolute; 
+            inset: 0; 
+            display: flex; 
+            align-items: center; 
+            padding: 60px;
+        }
+        .hero-text { color: white; max-width: 600px; }
+        .hero-text h1 { font-size: 3rem; margin-bottom: 16px; }
+
+        .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .tab-btn { background: none; border: none; padding: 8px 18px; cursor: pointer; border-radius: 40px; font-weight: 600; }
+        .tab-btn.active { background: var(--accent); color: white; }
+        .admin-section { display: none; }
+        .admin-section.active-section { display: block; }
+        
+        .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+        input, textarea, select { background: var(--bg-primary); border: 1px solid var(--border); padding: 10px; border-radius: 16px; color: var(--text-primary); }
+
+        footer { background: var(--bg-secondary); margin-top: 60px; padding: 40px 0; border-top: 1px solid var(--border); }
+        
+        @media (max-width: 768px) { 
+            .nav-flex { flex-direction: column; } 
+            .hero-text h1 { font-size: 1.8rem; }
+            .hero-overlay { padding: 30px; }
+            .hero-slide { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader-wrapper" id="loader"><div class="loader"></div></div>
+
+<!-- Notification Bar -->
+<div class="notification-bar" id="notifBar">
+    <span>📢 <span id="notifText">🎉 নতুন বই এসেছে! "সম্রাট ও দরবেশ" এখন পাওয়া যাচ্ছে। 🎉</span></span>
+    <button class="close-notif" id="closeNotif">✕</button>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="container nav-flex">
+        <div class="logo-area">
+            <img id="libraryLogoImg" class="logo-img" src="https://placehold.co/100x100/0f3b2c/white?text=P" alt="Logo">
+            <span class="site-title" id="libraryNameDisplay">প্রতীতি লাইব্রেরী</span>
+        </div>
+        <ul class="nav-links" id="navLinks"></ul>
+        <div class="lang-theme">
+            <button id="langBn" class="btn-outline btn" style="padding:6px 14px;"><i class="fas fa-language"></i> বাংলা</button>
+            <button id="langEn" class="btn-outline btn" style="padding:6px 14px;"><i class="fas fa-language"></i> English</button>
+            <button id="themeToggle" class="btn-outline btn" style="padding:6px 14px;"><i class="fas fa-moon"></i></button>
+            <button id="openAdminBtn" class="btn" style="background:#2c3e50;"><i class="fas fa-user-shield"></i> Admin</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="appContent"></main>
+
+<footer>
+    <div class="container">
+        <div class="grid-3" style="margin-bottom:30px;">
+            <div>
+                <h3><i class="fas fa-book"></i> প্রতীতি লাইব্রেরী</h3>
+                <p>জ্ঞানের আলোয় আলোকিত পথ</p>
+                <div id="socialFooter" style="margin-top: 15px;">
+                    <a href="#" style="color: var(--accent); margin-right: 15px;"><i class="fab fa-facebook fa-xl"></i></a>
+                    <a href="#" style="color: var(--accent); margin-right: 15px;"><i class="fab fa-twitter fa-xl"></i></a>
+                    <a href="#" style="color: var(--accent); margin-right: 15px;"><i class="fab fa-instagram fa-xl"></i></a>
+                    <a href="#" style="color: var(--accent);"><i class="fab fa-youtube fa-xl"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3>দ্রুত লিংক</h3>
+                <p><a href="#" data-page="books" style="color: var(--text-secondary); text-decoration: none;">📚 বই</a></p>
+                <p><a href="#" data-page="membership" style="color: var(--text-secondary); text-decoration: none;">👥 সদস্য</a></p>
+                <p><a href="#" data-page="events" style="color: var(--text-secondary); text-decoration: none;">🎉 ইভেন্ট</a></p>
+                <p><a href="#" data-page="contact" style="color: var(--text-secondary); text-decoration: none;">📞 যোগাযোগ</a></p>
+            </div>
+            <div>
+                <h3><i class="fas fa-envelope"></i> নিউজলেটার</h3>
+                <form id="newsletterForm">
+                    <input type="email" placeholder="আপনার ইমেইল" id="newsEmail" style="padding:12px; border-radius:40px; border:1px solid var(--border); width:100%; margin-bottom:10px;">
+                    <button type="submit" class="btn" style="width:100%;">সাবস্ক্রাইব <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <hr style="border-color: var(--border); margin: 20px 0;">
+        <p id="footerText" style="text-align: center;">© ২০২৫ প্রতীতি লাইব্রেরী - জ্ঞানের আলোয় আলোকিত পথ</p>
+    </div>
+</footer>
+
+<!-- Back to Top -->
+<div class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></div>
+
+<!-- Book Detail Modal -->
+<div id="bookModal" class="modal">
+    <div class="modal-content" id="bookModalContent"></div>
+</div>
+
+<!-- ADMIN PANEL MODAL -->
+<div id="adminModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2><i class="fas fa-user-cog"></i> Admin Control Panel</h2>
+            <button id="closeAdminBtn" style="background:red; color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer;">✕</button>
+        </div>
+        <div class="tab-buttons">
+            <button class="tab-btn" data-tab="settings">🏠 Settings</button>
+            <button class="tab-btn" data-tab="books">📚 Books</button>
+            <button class="tab-btn" data-tab="events">🎉 Events</button>
+            <button class="tab-btn" data-tab="notices">📢 Notices</button>
+            <button class="tab-btn" data-tab="founder">👨‍🎓 Founder</button>
+            <button class="tab-btn" data-tab="chairman">👔 Chairman</button>
+            <button class="tab-btn" data-tab="gallery">🖼️ Gallery</button>
+        </div>
+        
+        <div id="adminSettings" class="admin-section">
+            <h3>Website Settings</h3>
+            <div class="form-group"><label>Library Name</label><input type="text" id="setLibName" class="form-control"></div>
+            <div class="form-group"><label>Logo URL</label><input type="text" id="setLogoUrl" class="form-control"></div>
+            <div class="form-group"><label>Address</label><input type="text" id="setAddress" class="form-control"></div>
+            <div class="form-group"><label>Phone</label><input type="text" id="setPhone" class="form-control"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="setEmail" class="form-control"></div>
+            <div class="form-group"><label>Facebook URL</label><input type="text" id="setFacebook" class="form-control"></div>
+            <div class="form-group"><label>Footer Text</label><input type="text" id="setFooterText" class="form-control"></div>
+            <button class="btn" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Settings</button>
+        </div>
+        
+        <div id="adminBooks" class="admin-section">
+            <h3>Manage Books</h3>
+            <button id="addBookBtn" class="btn" style="margin-bottom:15px;"><i class="fas fa-plus"></i> Add New Book</button>
+            <div id="booksListAdmin"></div>
+        </div>
+        
+        <div id="adminEvents" class="admin-section">
+            <h3>Manage Events</h3>
+            <button id="addEventBtn" class="btn" style="margin-bottom:15px;"><i class="fas fa-plus"></i> Add New Event</button>
+            <div id="eventsListAdmin"></div>
+        </div>
+        
+        <div id="adminNotices" class="admin-section">
+            <h3>Manage Notices</h3>
+            <button id="addNoticeBtn" class="btn" style="margin-bottom:15px;"><i class="fas fa-plus"></i> Add New Notice</button>
+            <div id="noticesListAdmin"></div>
+        </div>
+        
+        <div id="adminFounder" class="admin-section">
+            <h3>Founder Information</h3>
+            <div class="form-group"><label>Name (BN)</label><input id="founderNameBn" class="form-control"></div>
+            <div class="form-group"><label>Name (EN)</label><input id="founderNameEn" class="form-control"></div>
+            <div class="form-group"><label>Photo URL</label><input id="founderPhoto" class="form-control"></div>
+            <div class="form-group"><label>Biography</label><textarea id="founderBio" rows="3" class="form-control"></textarea></div>
+            <div class="form-group"><label>Message</label><textarea id="founderMsg" rows="3" class="form-control"></textarea></div>
+            <button id="saveFounderBtn" class="btn">Save Founder</button>
+        </div>
+        
+        <div id="adminChairman" class="admin-section">
+            <h3>Chairman Information</h3>
+            <div class="form-group"><label>Name (BN)</label><input id="chairmanNameBn" class="form-control"></div>
+            <div class="form-group"><label>Name (EN)</label><input id="chairmanNameEn" class="form-control"></div>
+            <div class="form-group"><label>Photo URL</label><input id="chairmanPhoto" class="form-control"></div>
+            <div class="form-group"><label>Biography</label><textarea id="chairmanBio" rows="3" class="form-control"></textarea></div>
+            <div class="form-group"><label>Message</label><textarea id="chairmanMsg" rows="3" class="form-control"></textarea></div>
+            <button id="saveChairmanBtn" class="btn">Save Chairman</button>
+        </div>
+        
+        <div id="adminGallery" class="admin-section">
+            <h3>Gallery Management</h3>
+            <div class="form-group" style="flex-direction:row; gap:10px;">
+                <input type="text" id="newGalleryUrl" placeholder="Image URL" style="flex:1;">
+                <button id="addGalleryImgBtn" class="btn"><i class="fas fa-plus"></i> Add Image</button>
+            </div>
+            <div id="galleryAdminList" style="display:flex; flex-wrap:wrap; gap:15px; margin-top:20px;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+// ========== DATA STORE ==========
+let appData = {
+    lang: 'bn',
+    theme: 'light',
+    settings: { 
+        libName: 'প্রতীতি লাইব্রেরী', 
+        logo: 'https://placehold.co/100x100/0f3b2c/white?text=P', 
+        address: '৩৫, শহীদ মিনার রোড, ঢাকা - ১০০০', 
+        phone: '+৮৮০ ২ ৯৮৭৬৫৪৩', 
+        email: 'info@pritylibrary.com', 
+        facebook: 'https://facebook.com/pritylibrary', 
+        footerText: '© ২০২৫ প্রতীতি লাইব্রেরী - জ্ঞানের আলোয় আলোকিত পথ' 
+    },
+    founder: { 
+        nameBn: 'ড. মোহাম্মদ শামসুজ্জোহা', 
+        nameEn: 'Dr. Mohammad Shamsuzzoha', 
+        photo: 'https://randomuser.me/api/portraits/men/32.jpg', 
+        bioBn: 'প্রতিষ্ঠাতা ও দার্শনিক। ১৯৮৫ সালে গ্রামবাংলার শিশুদের জন্য লাইব্রেরী প্রতিষ্ঠা করেন। তিনি বিশ্বাস করতেন জ্ঞানই পারে দেশকে বদলে দিতে।', 
+        bioEn: 'Founder & visionary. Established library in 1985 for underprivileged children.', 
+        msgBn: 'জ্ঞানই শক্তি, বই আমাদের মিত্র। পড়তে থাকুন, জানতে থাকুন।', 
+        msgEn: 'Knowledge is power, books are our allies. Keep reading, keep learning.' 
+    },
+    chairman: { 
+        nameBn: 'জনাব কামরুল হাসান', 
+        nameEn: 'Mr. Kamrul Hasan', 
+        photo: 'https://randomuser.me/api/portraits/men/45.jpg', 
+        bioBn: 'সভাপতি, সমাজসেবী ও শিক্ষানুরাগী। ২০ বছরের বেশি সময় ধরে শিক্ষা খাতে কাজ করছেন।', 
+        bioEn: 'Chairman, social worker and education enthusiast.', 
+        msgBn: 'পাঠাগার গড়ে তুলুন সমৃদ্ধ ভবিষ্যৎ। প্রতিটি ঘরে ঘরে বই পৌঁছে দিন।', 
+        msgEn: 'Build libraries, build prosperous future.' 
+    },
+    books: [
+        { id:1, title:'হাজার বছর ধরে', author:'হুমায়ূন আহমেদ', isbn:'984-07-001', category:'উপন্যাস', cover:'https://covers.openlibrary.org/b/id/8232522-L.jpg', quantity:5, description:'একটি অসাধারণ উপন্যাস যা সময়ের সীমানা পেরিয়ে যায়।' },
+        { id:2, title:'দেওয়ান মোহাম্মদ আজরফ', author:'সৈয়দ ওয়ালীউল্লাহ', isbn:'984-07-002', category:'উপন্যাস', cover:'https://covers.openlibrary.org/b/id/8222022-L.jpg', quantity:3, description:'বাংলা সাহিত্যের অনবদ্য সৃষ্টি।' },
+        { id:3, title:'The Alchemist', author:'Paulo Coelho', isbn:'978-006250217', category:'Fiction', cover:'https://covers.openlibrary.org/b/id/8107522-L.jpg', quantity:8, description:'A journey of following your dreams.' },
+        { id:4, title:'শেষের কবিতা', author:'রবীন্দ্রনাথ ঠাকুর', isbn:'984-07-003', category:'উপন্যাস', cover:'https://covers.openlibrary.org/b/id/8212522-L.jpg', quantity:4, description:'প্রেম ও দর্শনের অপূর্ব মেলবন্ধন।' }
+    ],
+    events: [
+        { id:1, nameBn:'বই উৎসব ২০২৫', nameEn:'Book Fair 2025', date:'2025-12-15', time:'১০:০০ AM', location:'লাইব্রেরী মিলনায়তন', descBn:'বছরের বৃহত্তম বইমেলা। থাকছে ছাড়, আলোচনা ও অটোগ্রাফ সেশন।', descEn:'Annual grand book fair with discounts and author sessions.' },
+        { id:2, nameBn:'কবিতা পাঠ উৎসব', nameEn:'Poetry Recitation', date:'2025-11-10', time:'০৪:০০ PM', location:'মুক্তমঞ্চ', descBn:'নতুন ও পুরনো কবিদের অংশগ্রহণে কবিতা পাঠ।', descEn:'Poetry recitation by renowned poets.' }
+    ],
+    notices: [
+        { id:1, titleBn:'২১ ফেব্রুয়ারি লাইব্রেরী বন্ধ', titleEn:'Closed on 21 Feb', descBn:'আন্তর্জাতিক মাতৃভাষা দিবস উপলক্ষে লাইব্রেরী বন্ধ থাকবে।', descEn:'Library closed for International Mother Language Day.', isImportant:true },
+        { id:2, titleBn:'নতুন বই এসেছে!', titleEn:'New Books Arrived!', descBn:'দেওয়ান মোহাম্মদ আজরফ সহ ২০টি নতুন বই এসেছে।', descEn:'20 new books including classic novels.', isImportant:false }
+    ],
+    gallery: [
+        'https://picsum.photos/id/20/400/300',
+        'https://picsum.photos/id/24/400/300',
+        'https://picsum.photos/id/26/400/300',
+        'https://picsum.photos/id/28/400/300',
+        'https://picsum.photos/id/30/400/300'
+    ],
+    testimonials: [
+        { name:'শ্রাবণী সাহা', text:'অসাধারণ পরিবেশ! লাইব্রেরিটি খুবই সমৃদ্ধ। প্রতিদিন আসতে ইচ্ছে করে।', rating:5, photo:'https://randomuser.me/api/portraits/women/1.jpg' },
+        { name:'রফিক আহমেদ', text:'ডিজিটাল সিস্টেম চমৎকার। বই ইস্যু করা খুব সহজ। দারুণ উদ্যোগ!', rating:5, photo:'https://randomuser.me/api/portraits/men/2.jpg' },
+        { name:'তাসনিম হক', text:'বাচ্চাদের জন্য চমৎকর বিভাগ আছে। আমার মেয়ে খুব আনন্দ পায়।', rating:4, photo:'https://randomuser.me/api/portraits/women/3.jpg' }
+    ],
+    borrowedBooks: []
+};
+
+// ========== HELPER FUNCTIONS ==========
+function loadData() { 
+    const saved = localStorage.getItem('prity_library_full'); 
+    if(saved) appData = JSON.parse(saved); 
+    applyTheme(); 
+}
+function saveData() { localStorage.setItem('prity_library_full', JSON.stringify(appData)); }
+function applyTheme() { if(appData.theme === 'dark') document.body.classList.add('dark'); else document.body.classList.remove('dark'); }
+function toggleTheme() { appData.theme = appData.theme === 'light' ? 'dark' : 'light'; applyTheme(); saveData(); renderPage(); }
+
+// Countdown Timer
+function startCountdown(targetDate, elementId) {
+    const target = new Date(targetDate).getTime();
+    const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const diff = target - now;
+        if(diff <= 0) { 
+            clearInterval(interval); 
+            if(document.getElementById(elementId)) 
+                document.getElementById(elementId).innerHTML = "🎉 ইভেন্ট শুরু হয়েছে! 🎉"; 
+            return; 
+        }
+        const days = Math.floor(diff/(1000*60*60*24));
+        const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+        const mins = Math.floor((diff%(1000*60*60))/(1000*60));
+        const secs = Math.floor((diff%(1000*60))/1000);
+        if(document.getElementById(elementId))
+            document.getElementById(elementId).innerHTML = `${days} দিন ${hours} ঘন্টা ${mins} মিনিট ${secs} সেকেন্ড`;
+    }, 1000);
+}
+
+// Book detail modal
+function showBookDetail(bookId) {
+    const book = appData.books.find(b => b.id === bookId);
+    if(!book) return;
+    const modalContent = `
+        <h2>${book.title}</h2>
+        <img src="${book.cover}" style="width:100%; border-radius:16px; margin:15px 0;">
+        <p><strong>লেখক:</strong> ${book.author}</p>
+        <p><strong>ISBN:</strong> ${book.isbn}</p>
+        <p><strong>ক্যাটাগরি:</strong> ${book.category}</p>
+        <p><strong>বিবরণ:</strong> ${book.description}</p>
+        <p><strong>উপলব্ধ কপি:</strong> ${book.quantity} টি</p>
+        <button class="btn" onclick="borrowBook(${book.id}); closeModal()">📥 বুক Borrow করুন</button>
+        <button class="btn-outline btn" onclick="closeModal()" style="margin-top:10px;">বন্ধ করুন</button>
+    `;
+    document.getElementById('bookModalContent').innerHTML = modalContent;
+    document.getElementById('bookModal').style.display = 'flex';
+}
+function closeModal() { document.getElementById('bookModal').style.display = 'none'; }
+function borrowBook(bookId) {
+    const book = appData.books.find(b => b.id === bookId);
+    if(book && book.quantity > 0) {
+        book.quantity--;
+        appData.borrowedBooks.push({ bookId, date: new Date().toISOString() });
+        saveData();
+        alert(`"${book.title}" বইটি বরো করা হয়েছে!`);
+        renderPage();
+    } else {
+        alert('দুঃখিত, বইটি বর্তমানে উপলব্ধ নেই।');
+    }
+}
+function returnBook(bookId) {
+    const book = appData.books.find(b => b.id === bookId);
+    if(book) {
+        book.quantity++;
+        const index = appData.borrowedBooks.findIndex(b => b.bookId === bookId);
+        if(index !== -1) appData.borrowedBooks.splice(index, 1);
+        saveData();
+        alert(`"${book.title}" বইটি রিটার্ন করা হয়েছে!`);
+        renderPage();
+    }
+}
+
+// ========== PAGE RENDERING ==========
+let currentPage = 'home';
+let swiperInstance = null;
+let testimonialSwiper = null;
+
+function renderPage() {
+    const contentDiv = document.getElementById('appContent');
+    if(currentPage === 'home') contentDiv.innerHTML = renderHome();
+    else if(currentPage === 'about') contentDiv.innerHTML = renderAbout();
+    else if(currentPage === 'founder') contentDiv.innerHTML = renderFounder();
+    else if(currentPage === 'chairman') contentDiv.innerHTML = renderChairman();
+    else if(currentPage === 'committee') contentDiv.innerHTML = renderCommittee();
+    else if(currentPage === 'books') contentDiv.innerHTML = renderBooks();
+    else if(currentPage === 'digital') contentDiv.innerHTML = renderDigital();
+    else if(currentPage === 'events') contentDiv.innerHTML = renderEvents();
+    else if(currentPage === 'gallery') contentDiv.innerHTML = renderGallery();
+    else if(currentPage === 'notices') contentDiv.innerHTML = renderNotices();
+    else if(currentPage === 'membership') contentDiv.innerHTML = renderMembership();
+    else if(currentPage === 'contact') contentDiv.innerHTML = renderContact();
+    else if(currentPage === 'faq') contentDiv.innerHTML = renderFAQ();
+    
+    // Initialize sliders after render
+    setTimeout(() => {
+        if(swiperInstance) swiperInstance.destroy(true, true);
+        if(testimonialSwiper) testimonialSwiper.destroy(true, true);
+        if(currentPage === 'home') {
+            initSlider();
+            initTestimonialSlider();
+            startCountdown(appData.events[0]?.date || '2025-12-15', 'eventCountdown');
+        }
+        AOS.refresh();
+    }, 100);
+    updateUI();
+}
+
+function updateUI() {
+    document.getElementById('libraryLogoImg').src = appData.settings.logo;
+    document.getElementById('libraryNameDisplay').innerText = appData.settings.libName;
+    document.getElementById('footerText').innerHTML = appData.settings.footerText;
+}
+
+function renderHome() { return `
+    <div class="swiper mySwiper" style="margin-bottom:20px;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide hero-slide" style="background-image:url('https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg');">
+                <div class="hero-overlay"><div class="hero-text"><h1>📚 স্বাগতম প্রতীতি লাইব্রেরী</h1><p>জ্ঞানের বিকাশ, চিন্তার মুক্তি</p><button class="btn" onclick="navigateTo('books')">বই দেখুন →</button></div></div>
+            </div>
+            <div class="swiper-slide hero-slide" style="background-image:url('https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg');">
+                <div class="hero-overlay"><div class="hero-text"><h1>🌟 Welcome to Prity Library</h1><p>Empowering minds through books</p><button class="btn" onclick="navigateTo('books')">Explore Books →</button></div></div>
+            </div>
+            <div class="swiper-slide hero-slide" style="background-image:url('https://images.pexels.com/photos/5428836/pexels-photo-5428836.jpeg');">
+                <div class="hero-overlay"><div class="hero-text"><h1>👥 সদস্য হন আজই</h1><p>পাওয়া যাচ্ছে লাইব্রেরি কার্ড ও অসীম জ্ঞানভাণ্ডার</p><button class="btn" onclick="navigateTo('membership')">মembership নিন →</button></div></div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    <div class="container">
+        <div class="countdown-box" data-aos="fade-up">
+            <h3>🎉 আসন্ন ইভেন্ট: ${appData.lang==='bn'?appData.events[0]?.nameBn:appData.events[0]?.nameEn}</h3>
+            <div class="countdown-timer" id="eventCountdown"></div>
+        </div>
+        
+        <div class="card" data-aos="fade-right">
+            <h2><i class="fas fa-hand-peace"></i> স্বাগত বার্তা</h2>
+            <p>স্বাগতম আপনাকে প্রতীতি লাইব্রেরীতে। আমরা জ্ঞানের আলো ছড়াতে প্রতিজ্ঞাবদ্ধ। ১৯৮৫ সাল থেকে আমরা বইপ্রেমীদের সেবা করে আসছি। আমাদের লক্ষ্য প্রতিটি ঘরে ঘরে বই পৌঁছে দেওয়া।</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="card" data-aos="zoom-in"><div class="stat-number" id="visitorCount">15,234</div><div><i class="fas fa-users"></i> মোট দর্শক</div></div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="100"><div class="stat-number">${appData.books.length + 150}</div><div><i class="fas fa-book"></i> বই সংগ্রহ</div></div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="200"><div class="stat-number">348</div><div><i class="fas fa-id-card"></i> সক্রিয় সদস্য</div></div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="300"><div class="stat-number">${appData.events.length + 12}</div><div><i class="fas fa-calendar-alt"></i> মোট ইভেন্ট</div></div>
+        </div>
+        
+        <div class="grid-3">
+            <div class="card" data-aos="fade-up"><h3><i class="fas fa-bullhorn"></i> সর্বশেষ নোটিশ</h3><ul style="list-style:none;">${appData.notices.slice(0,3).map(n=>`<li style="margin-bottom:10px;">📌 <strong>${appData.lang==='bn'?n.titleBn:n.titleEn}</strong><br><small>${appData.lang==='bn'?n.descBn:n.descEn}</small></li>`).join('')}</ul></div>
+            <div class="card" data-aos="fade-up" data-aos-delay="100"><h3><i class="fas fa-calendar-week"></i> আসন্ন ইভেন্ট</h3><ul style="list-style:none;">${appData.events.map(e=>`<li style="margin-bottom:10px;">📅 <strong>${appData.lang==='bn'?e.nameBn:e.nameEn}</strong><br>${e.date} | ${e.time}</li>`).join('')}</ul></div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200"><h3><i class="fas fa-star"></i> বৈশিষ্ট্যপূর্ণ বই</h3>${appData.books.slice(0,3).map(b=>`<div style="margin-bottom:12px;"><strong>📘 ${b.title}</strong><br>${b.author}<br><small>⭐ জনপ্রিয়</small></div>`).join('')}</div>
+        </div>
+        
+        <h3 data-aos="fade-right"><i class="fas fa-images"></i> গ্যালারি প্রিভিউ</h3>
+        <div style="display:flex; gap:15px; flex-wrap:wrap; margin:20px 0;" data-aos="fade-up">${appData.gallery.slice(0,4).map(img=>`<img src="${img}" width="120" height="90" style="border-radius:12px; object-fit:cover; cursor:pointer;" onclick="window.open('${img}')">`).join('')}</div>
+        
+        <h3 data-aos="fade-right"><i class="fas fa-comments"></i> সদস্য রিভিউ</h3>
+        <div class="swiper testimonialSwiper" style="margin:20px 0; padding:20px 0;" data-aos="fade-up">
+            <div class="swiper-wrapper">
+                ${appData.testimonials.map(t=>`<div class="swiper-slide"><div class="card" style="text-align:center;"><img src="${t.photo}" width="70" height="70" style="border-radius:50%; object-fit:cover; margin-bottom:10px;"><h4>${t.name}</h4><p>"${t.text}"</p><div>${'⭐'.repeat(t.rating)}</div></div></div>`).join('')}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>`; }
+
+function renderAbout() { return `<div class="container"><div class="card" data-aos="fade-up"><h2><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</h2><p>প্রতীতি লাইব্রেরী ১৯৮৫ সাল থেকে জ্ঞানচর্চার কেন্দ্র। আমাদের লক্ষ্য সবার জন্য উন্মুক্ত পাঠাগার তৈরি করা।</p><p>শতাধিক বই, ডিজিটাল সংগ্রহ, নিয়মিত ইভেন্ট এবং গবেষণা সুবিধা প্রদান করি আমরা।</p><br><p><strong>মিশন:</strong> জ্ঞানকে সকলের কাছে পৌঁছে দেওয়া।<br><strong>ভিশন:</strong> একটি জ্ঞানভিত্তিক সমাজ গঠন।</p></div></div>`; }
+
+function renderFounder() { 
+    const f = appData.founder;
+    return `<div class="container"><div class="card" data-aos="fade-up" style="text-align:center;"><img src="${f.photo}" width="180" style="border-radius:50%; margin-bottom:20px;"><h2>${appData.lang==='bn'?f.nameBn:f.nameEn}</h2><p><strong>📖 জীবনী:</strong> ${appData.lang==='bn'?f.bioBn:f.bioEn}</p><p><strong>💌 বার্তা:</strong> "${appData.lang==='bn'?f.msgBn:f.msgEn}"</p><div><i class="fab fa-facebook"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-twitter"></i></div></div></div>`; }
+    
+function renderChairman() { 
+    const c = appData.chairman;
+    return `<div class="container"><div class="card" data-aos="fade-up" style="text-align:center;"><img src="${c.photo}" width="180" style="border-radius:50%; margin-bottom:20px;"><h2>${appData.lang==='bn'?c.nameBn:c.nameEn}</h2><p><strong>📖 জীবনী:</strong> ${appData.lang==='bn'?c.bioBn:c.bioEn}</p><p><strong>💌 বার্তা:</strong> "${appData.lang==='bn'?c.msgBn:c.msgEn}"</p></div></div>`; }
+    
+function renderCommittee() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-users"></i> ম্যানেজমেন্ট কমিটি</h2><div class="grid-3">
+        <div class="card" data-aos="fade-up"><h3><i class="fas fa-user-tie"></i> সভাপতি</h3><p>জনাব কামরুল হাসান</p><hr><h3><i class="fas fa-user"></i> সহ-সভাপতি</h3><p>মিসেস ফারহানা ইসলাম</p></div>
+        <div class="card" data-aos="fade-up" data-aos-delay="100"><h3><i class="fas fa-pen-fancy"></i> সাধারণ সম্পাদক</h3><p>মিসেস নাজমা খাতুন</p><hr><h3><i class="fas fa-coins"></i> কোষাধ্যক্ষ</h3><p>জনাব শামীম রেজা</p></div>
+        <div class="card" data-aos="fade-up" data-aos-delay="200"><h3><i class="fas fa-user-friends"></i> সদস্যবৃন্দ</h3><p>সারা তাসনীম<br>মোঃ হাসানুজ্জামান<br>ড. রোকেয়া কবির</p></div>
+    </div></div>`; }
+    
+function renderBooks() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-book-open"></i> বইয়ের তালিকা</h2><input type="text" id="searchBook" placeholder="🔍 সার্চ করুন (শিরোনাম বা লেখক)..." style="width:100%; padding:14px; border-radius:40px; border:1px solid var(--border); margin-bottom:25px;" onkeyup="filterBooks()"><div class="books-grid" id="booksGrid">${appData.books.map(b=>`<div class="card book-card" data-book-title="${b.title.toLowerCase()}" data-book-author="${b.author.toLowerCase()}"><img src="${b.cover}" onerror="this.src='https://placehold.co/300x200?text=Book+Cover'" onclick="showBookDetail(${b.id})"><h3>${b.title}</h3><p><i class="fas fa-user-edit"></i> ${b.author}</p><p><i class="fas fa-boxes"></i> উপলব্ধ: ${b.quantity} টি</p><button class="btn" onclick="event.stopPropagation(); borrowBook(${b.id})"><i class="fas fa-hand-holding"></i> Borrow</button></div>`).join('')}</div></div>`; }
+    
+function filterBooks() {
+    const search = document.getElementById('searchBook')?.value.toLowerCase() || '';
+    const cards = document.querySelectorAll('.book-card');
+    cards.forEach(card => {
+        const title = card.getAttribute('data-book-title') || '';
+        const author = card.getAttribute('data-book-author') || '';
+        if(title.includes(search) || author.includes(search)) card.style.display = 'block';
+        else card.style.display = 'none';
+    });
+}
+    
+function renderDigital() { 
+    return `<div class="container"><div class="card" data-aos="fade-up"><h2><i class="fas fa-laptop-code"></i> ডিজিটাল লাইব্রেরি</h2><p>ই-বুক, জার্নাল, অনলাইন আর্কাইভ শীঘ্রই আসছে। আমাদের ডিজিটাল কালেকশনে থাকছে:</p><ul><li>📱 ৫০০+ ই-বুক</li><li>📄 ১০০০+ রিসার্চ পেপার</li><li>🎥 ভিডিও লেকচার</li><li>🎧 অডিও বুক</li></ul><br><div class="card" style="background: var(--bg-secondary);"><h3>নিবন্ধিত সদস্যদের জন্য ফ্রি অ্যাক্সেস</h3><button class="btn" onclick="navigateTo('membership')">সদস্য হন এখনই</button></div></div></div>`; }
+    
+function renderEvents() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-calendar-alt"></i> ইভেন্টসমূহ</h2>${appData.events.map((e,idx)=>`<div class="card" data-aos="fade-up" data-aos-delay="${idx*100}"><h3>${appData.lang==='bn'?e.nameBn:e.nameEn}</h3><p><i class="fas fa-calendar-day"></i> ${e.date} | <i class="fas fa-clock"></i> ${e.time} | <i class="fas fa-map-marker-alt"></i> ${e.location}</p><p>${appData.lang==='bn'?e.descBn:e.descEn}</p></div>`).join('')}</div>`; }
+    
+function renderGallery() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-camera-retro"></i> ফটো গ্যালারি</h2><div class="books-grid">${appData.gallery.map((img,idx)=>`<div data-aos="zoom-in" data-aos-delay="${idx*50}"><img src="${img}" style="width:100%; height:220px; object-fit:cover; border-radius:16px; cursor:pointer;" onclick="window.open('${img}')"></div>`).join('')}</div></div>`; }
+    
+function renderNotices() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</h2>${appData.notices.map((n,idx)=>`<div class="card" data-aos="fade-up" data-aos-delay="${idx*50}" style="border-left: 5px solid ${n.isImportant ? '#e74c3c' : 'var(--accent)'};"><h3><i class="fas ${n.isImportant ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i> ${appData.lang==='bn'?n.titleBn:n.titleEn}</h3><p>${appData.lang==='bn'?n.descBn:n.descEn}</p><small><i class="fas fa-clock"></i> প্রকাশ: ${new Date().toLocaleDateString()}</small></div>`).join('')}</div>`; }
+    
+function renderMembership() { 
+    return `<div class="container"><div class="grid-3"><div class="card" data-aos="fade-right"><h2><i class="fas fa-user-plus"></i> সদস্য নিবন্ধন</h2><div class="form-group"><label>পূর্ণ নাম</label><input id="memName" placeholder="আপনার নাম" class="form-control"></div><div class="form-group"><label>ইমেইল</label><input id="memEmail" type="email" placeholder="ইমেইল" class="form-control"></div><div class="form-group"><label>ফোন নম্বর</label><input id="memPhone" placeholder="০১XXXXXXXXX" class="form-control"></div><div class="form-group"><label>ঠিকানা</label><textarea id="memAddress" rows="2" placeholder="ঠিকানা" class="form-control"></textarea></div><button id="registerMemberBtn" class="btn"><i class="fas fa-id-card"></i> নিবন্ধন করুন</button></div><div class="card" data-aos="fade-left"><h3><i class="fas fa-list"></i> সদস্য সুবিধাসমূহ</h3><ul><li>📚 সর্বোচ্চ ৫টি বই নেওয়ার সুবিধা</li><li>📱 ডিজিটাল লাইব্রেরি অ্যাক্সেস</li><li>🎉 বিশেষ ইভেন্টে ছাড়</li><li>📖 বুক রিজার্ভেশন সুবিধা</li></ul><div class="countdown-box" style="margin-top:20px;"><h4>বার্ষিক ফি: মাত্র ৫০০ টাকা</h4><p>সীমিত সময়ের অফার!</p></div></div></div></div>`; }
+    
+function renderContact() { 
+    return `<div class="container"><div class="grid-3"><div class="card" data-aos="fade-right"><h2><i class="fas fa-map-marker-alt"></i> ঠিকানা</h2><p>${appData.settings.address}</p><p><i class="fas fa-phone"></i> ${appData.settings.phone}</p><p><i class="fas fa-envelope"></i> ${appData.settings.email}</p><div class="countdown-box" style="margin-top:20px;"><h4>খোলার সময়:</h4><p>সোম-শনি: সকাল ৯টা - রাত ৮টা<br>শুক্রবার: বন্ধ<br>রবিবার: সকাল ১০টা - বিকাল ৫টা</p></div></div><div class="card" data-aos="fade-left"><iframe width="100%" height="300" style="border-radius:16px; border:0;" loading="lazy" src="https://maps.google.com/maps?q=Dhaka+Bangladesh&output=embed"></iframe><h3 style="margin-top:20px;"><i class="fas fa-comment-dots"></i> মতামত দিন</h3><textarea id="feedbackMsg" rows="3" class="form-control" placeholder="আপনার মতামত..."></textarea><button id="submitFeedback" class="btn" style="margin-top:10px;">পাঠান <i class="fas fa-paper-plane"></i></button></div></div></div>`; }
+    
+function renderFAQ() { 
+    return `<div class="container"><h2 data-aos="fade-right"><i class="fas fa-question-circle"></i> সচরাচর জিজ্ঞাসা</h2><div class="grid-3"><div class="card" data-aos="fade-up"><h3>❓ সদস্য হতে কত খরচ?</h3><p>বার্ষিক সদস্য ফি মাত্র ৫০০ টাকা। ছাত্র-ছাত্রীদের জন্য রয়েছে বিশেষ ছাড়।</p></div><div class="card" data-aos="fade-up" data-aos-delay="100"><h3>❓ লাইব্রেরি খোলার সময়?</h3><p>সকাল ৯টা থেকে রাত ৮টা, শুক্রবার বন্ধ। রবিবার সকাল ১০টা থেকে বিকাল ৫টা।</p></div><div class="card" data-aos="fade-up" data-aos-delay="200"><h3>❓ একসাথে কতটি বই নেওয়া যাবে?</h3><p>সাধারণ সদস্য ৩টি, প্রিমিয়াম সদস্য ৫টি বই নিতে পারবেন।</p></div><div class="card" data-aos="fade-up" data-aos-delay="300"><h3>❓ বই ফেরত দিতে কতদিন সময়?</h3><p>সাধারণত ১৫ দিন। ই-মেইলে নোটিফিকেশন পাঠানো হয়।</p></div><div class="card" data-aos="fade-up" data-aos-delay="400"><h3>❓ ডিজিটাল লাইব্রেরি কিভাবে ব্যবহার করব?</h3><p>সদস্য হওয়ার পর ইউজারনেম ও পাসওয়ার্ড প্রদান করা হবে।</p></div></div></div>`; }
+
+// Slider initialization
+function initSlider() {
+    swiperInstance = new Swiper('.mySwiper', { 
+        loop: true, 
+        autoplay: { delay: 5000, disableOnInteraction: false }, 
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    });
+}
+function initTestimonialSlider() {
+    testimonialSwiper = new Swiper('.testimonialSwiper', { 
+        loop: true, 
+        autoplay: { delay: 4000 },
+        slidesPerView: 1,
+        spaceBetween: 20,
+        breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+        pagination: { el: '.swiper-pagination', clickable: true }
+    });
+}
+
+function navigateTo(page) { currentPage = page; renderPage(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ========== EVENT LISTENERS ==========
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    // Hide loader
+    setTimeout(() => { const loader = document.getElementById('loader'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 800);
+    
+    // Navigation
+    const navMap = ['home','about','founder','chairman','committee','books','digital','events','gallery','notices','membership','contact','faq'];
+    const navLinksDiv = document.getElementById('navLinks');
+    navLinksDiv.innerHTML = navMap.map((pg,idx)=>`<li><a href="#" data-page="${pg}">${['হোম','লাইব্রেরী','প্রতিষ্ঠাতা','চেয়ারম্যান','কমিটি','বই','ডিজিটাল','ইভেন্ট','গ্যালারি','নোটিশ','সদস্য','যোগাযোগ','FAQ'][idx]}</a></li>`).join('');
+    document.querySelectorAll('[data-page]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); navigateTo(a.dataset.page); }));
+    
+    // Language buttons
+    document.getElementById('langBn').onclick = () => { appData.lang='bn'; saveData(); renderPage(); };
+    document.getElementById('langEn').onclick = () => { appData.lang='en'; saveData(); renderPage(); };
+    document.getElementById('themeToggle').onclick = toggleTheme;
+    
+    // Admin panel
+    document.getElementById('openAdminBtn').onclick = () => document.getElementById('adminModal').style.display = 'flex';
+    document.getElementById('closeAdminBtn').onclick = () => document.getElementById('adminModal').style.display = 'none';
+    
+    // Back to top
+    window.addEventListener('scroll', () => { document.getElementById('backToTop').classList.toggle('show', window.scrollY > 300); });
+    document.getElementById('backToTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Close notification
+    document.getElementById('closeNotif').onclick = () => document.getElementById('notifBar').style.display = 'none';
+    
+    // Newsletter
+    document.getElementById('newsletterForm').onsubmit = (e) => { e.preventDefault(); alert('সাবস্ক্রিপশন সম্পন্ন হয়েছে! ধন্যবাদ।'); document.getElementById('newsEmail').value = ''; };
+    
+    // Feedback
+    document.getElementById('submitFeedback')?.addEventListener('click', () => { const msg = document.getElementById('feedbackMsg')?.value; if(msg) alert('আপনার মতামতের জন্য ধন্যবাদ!'); });
+    
+    // Register member
+    document.getElementById('registerMemberBtn')?.addEventListener('click', () => { alert('সদস্য নিবন্ধনের জন্য শীঘ্রই যোগাযোগ করা হবে। ধন্যবাদ!'); });
+    
+    // Admin save buttons
+    document.getElementById('saveSettingsBtn').onclick = () => {
+        appData.settings.libName = document.getElementById('setLibName').value;
+        appData.settings.logo = document.getElementById('setLogoUrl').value;
+        appData.settings.address = document.getElementById('setAddress').value;
+        appData.settings.phone = document.getElementById('setPhone').value;
+        appData.settings.email = document.getElementById('setEmail').value;
+        appData.settings.facebook = document.getElementById('setFacebook').value;
+        appData.settings.footerText = document.getElementById('setFooterText').value;
+        saveData(); renderPage(); alert('সেটিংস সংরক্ষিত হয়েছে!');
+    };
+    document.getElementById('saveFounderBtn').onclick = () => {
+        appData.founder.nameBn = document.getElementById('founderNameBn').value;
+        appData.founder.nameEn = document.getElementById('founderNameEn').value;
+        appData.founder.photo = document.getElementById('founderPhoto').value;
+        appData.founder.bioBn = document.getElementById('founderBio').value;
+        appData.founder.msgBn = document.getElementById('founderMsg').value;
+        saveData(); renderPage(); alert('ফাউন্ডার তথ্য সংরক্ষিত!');
+    };
+    document.getElementById('saveChairmanBtn').onclick = () => {
+        appData.chairman.nameBn = document.getElementById('chairmanNameBn').value;
+        appData.chairman.nameEn = document.getElementById('chairmanNameEn').value;
+        appData.chairman.photo = document.getElementById('chairmanPhoto').value;
+        appData.chairman.bioBn = document.getElementById('chairmanBio').value;
+        appData.chairman.msgBn = document.getElementById('chairmanMsg').value;
+        saveData(); renderPage(); alert('চেয়ারম্যান তথ্য সংরক্ষিত!');
+    };
+    document.getElementById('addBookBtn').onclick = () => {
+        let newBook = { id: Date.now(), title:'নতুন বই', author:'লেখক', isbn:'XXX', category:'সাধারণ', cover:'https://placehold.co/300x200?text=New+Book', quantity:1, description:'বইয়ের বিবরণ' };
+        appData.books.push(newBook); saveData(); renderPage(); showBooksAdmin();
+    };
+    document.getElementById('addEventBtn').onclick = () => {
+        appData.events.push({ id:Date.now(), nameBn:'নতুন ইভেন্ট', nameEn:'New Event', date:'2025-12-31', time:'৫:০০ PM', location:'লাইব্রেরী', descBn:'বিবরণ', descEn:'Description' });
+        saveData(); renderPage(); showEventsAdmin();
+    };
+    document.getElementById('addNoticeBtn').onclick = () => {
+        appData.notices.push({ id:Date.now(), titleBn:'নতুন নোটিশ', titleEn:'New Notice', descBn:'বিস্তারিত', descEn:'Details', isImportant:false });
+        saveData(); renderPage(); showNoticesAdmin();
+    };
+    document.getElementById('addGalleryImgBtn').onclick = () => {
+        let url = document.getElementById('newGalleryUrl').value;
+        if(url) { appData.gallery.push(url); saveData(); renderPage(); showGalleryAdmin(); document.getElementById('newGalleryUrl').value = ''; }
+        else alert('ছবির URL দিন');
+    };
+    
+    window.deleteBook = (id) => { appData.books = appData.books.filter(b=>b.id !== id); saveData(); renderPage(); showBooksAdmin(); };
+    window.deleteEvent = (id) => { appData.events = appData.events.filter(e=>e.id !== id); saveData(); renderPage(); showEventsAdmin(); };
+    window.deleteNotice = (id) => { appData.notices = appData.notices.filter(n=>n.id !== id); saveData(); renderPage(); showNoticesAdmin(); };
+    window.deleteGalleryImg = (idx) => { appData.gallery.splice(idx,1); saveData(); renderPage(); showGalleryAdmin(); };
+    
+    function showBooksAdmin() { let container = document.getElementById('booksListAdmin'); if(container) container.innerHTML = appData.books.map(b=>`<div class="card" style="margin:10px 0;"><div style="display:flex; justify-content:space-between;"><span><strong>${b.title}</strong> - ${b.author}</span><button class="btn-outline btn" onclick="deleteBook(${b.id})" style="padding:4px 12px;">Delete</button></div></div>`).join(''); }
+    function showEventsAdmin() { let container = document.getElementById('eventsListAdmin'); if(container) container.innerHTML = appData.events.map(e=>`<div class="card" style="margin:10px 0;"><div style="display:flex; justify-content:space-between;"><span><strong>${e.nameBn}</strong> - ${e.date}</span><button class="btn-outline btn" onclick="deleteEvent(${e.id})" style="padding:4px 12px;">Delete</button></div></div>`).join(''); }
+    function showNoticesAdmin() { let container = document.getElementById('noticesListAdmin'); if(container) container.innerHTML = appData.notices.map(n=>`<div class="card" style="margin:10px 0;"><div style="display:flex; justify-content:space-between;"><span><strong>${n.titleBn}</strong></span><button class="btn-outline btn" onclick="deleteNotice(${n.id})" style="padding:4px 12px;">Delete</button></div></div>`).join(''); }
+    function showGalleryAdmin() { let container = document.getElementById('galleryAdminList'); if(container) container.innerHTML = appData.gallery.map((img,idx)=>`<div><img src="${img}" width="80" height="60" style="border-radius:8px; object-fit:cover;"><br><button onclick="deleteGalleryImg(${idx})" class="btn-outline btn" style="padding:2px 8px; margin-top:5px;">Remove</button></div>`).join(''); }
+    
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.admin-section').forEach(sec=>sec.classList.remove('active-section')); document.getElementById(`admin${btn.innerText.split(' ')[1]}`).classList.add('active-section'); }); });
+    document.getElementById('adminSettings').classList.add('active-section');
+    
+    // Load admin form values
+    setInterval(() => {
+        if(document.getElementById('setLibName')) {
+            document.getElementById('setLibName').value = appData.settings.libName;
+            document.getElementById('setLogoUrl').value = appData.settings.logo;
+            document.getElementById('setAddress').value = appData.settings.address;
+            document.getElementById('setPhone').value = appData.settings.phone;
+            document.getElementById('setEmail').value = appData.settings.email;
+            document.getElementById('setFacebook').value = appData.settings.facebook;
+            document.getElementById('setFooterText').value = appData.settings.footerText;
+            document.getElementById('founderNameBn').value = appData.founder.nameBn;
+            document.getElementById('founderNameEn').value = appData.founder.nameEn;
+            document.getElementById('founderPhoto').value = appData.founder.photo;
+            document.getElementById('founderBio').value = appData.founder.bioBn;
+            document.getElementById('founderMsg').value = appData.founder.msgBn;
+            document.getElementById('chairmanNameBn').value = appData.chairman.nameBn;
+            document.getElementById('chairmanNameEn').value = appData.chairman.nameEn;
+            document.getElementById('chairmanPhoto').value = appData.chairman.photo;
+            document.getElementById('chairmanBio').value = appData.chairman.bioBn;
+            document.getElementById('chairmanMsg').value = appData.chairman.msgBn;
+            showBooksAdmin(); showEventsAdmin(); showNoticesAdmin(); showGalleryAdmin();
+        }
+    }, 500);
+    
+    // Click outside modal to close
+    window.onclick = (e) => { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; };
+    window.closeModal = closeModal;
+    window.showBookDetail = showBookDetail;
+    window.borrowBook = borrowBook;
+    window.returnBook = returnBook;
+    window.filterBooks = filterBooks;
+    window.navigateTo = navigateTo;
+    
+    renderPage();
+});
+</script>
+</body>
+</html>
